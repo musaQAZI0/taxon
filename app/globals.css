@@ -1,26 +1,166 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #F4F6F6;
+  --foreground: #102B47;
+  color-scheme: light;
+
+  --card: #FFFFFF;
+  --muted: #66717D;
+  --border: color-mix(in oklab, #C4A45F 34%, transparent);
+
+  /* Taxon-inspired corporate navy, cool white, slate, and metallic gold. */
+  --brand-50: #EEF2F5;
+  --brand-100: #DCE4EA;
+  --brand-200: #BAC8D3;
+  --brand-300: #8FA5B7;
+  --brand-400: #59758E;
+  --brand-500: #294B69;
+  --brand-600: #173B5C;
+  --brand-700: #102F4E;
+  --brand-800: #0C263F;
+  --brand-900: #071C30;
+
+  --accent: #C4A45F;
+  --accent-soft: #F3EBD9;
+
+  --ring: color-mix(in oklab, var(--accent) 76%, white);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-300: var(--brand-300);
+  --color-brand-400: var(--brand-400);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-800: var(--brand-800);
+  --color-brand-900: var(--brand-900);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: color-mix(in oklab, var(--brand-500) 25%, transparent);
+}
+
+:where(a, button, input, textarea, select):focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 3px;
+}
+
+@keyframes tv-pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.18);
+    opacity: 1;
+  }
+}
+
+@keyframes tv-pan {
+  0% {
+    transform: translate3d(-6%, 0, 0);
+  }
+  100% {
+    transform: translate3d(6%, 0, 0);
+  }
+}
+
+@keyframes tv-shimmer {
+  0% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.65;
+  }
+  100% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes tv-orbPulse {
+  0%,
+  100% {
+    transform: translateX(-50%) scale(0.95);
+    opacity: 0.75;
+  }
+  50% {
+    transform: translateX(-50%) scale(1.25);
+    opacity: 1;
+  }
+}
+
+.hero-finance-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-finance-icon {
+  position: absolute;
+  display: grid;
+  width: clamp(2.75rem, 5vw, 4.75rem);
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid rgb(196 164 95 / 28%);
+  border-radius: 1.1rem;
+  color: rgb(196 164 95 / 48%);
+  background: rgb(196 164 95 / 6%);
+  box-shadow: inset 0 0 24px rgb(196 164 95 / 5%);
+  backdrop-filter: blur(2px);
+  animation: hero-finance-float 9s ease-in-out infinite;
+}
+
+.hero-finance-icon svg {
+  width: 58%;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hero-finance-icon-1 { left: 4%; top: 16%; animation-delay: -1s; }
+.hero-finance-icon-2 { right: 6%; top: 13%; animation-delay: -5s; }
+.hero-finance-icon-3 { left: 10%; bottom: 10%; animation-delay: -7s; }
+.hero-finance-icon-4 { right: 12%; bottom: 8%; animation-delay: -3s; }
+.hero-finance-icon-5 { right: 27%; top: 46%; animation-delay: -8s; opacity: 0.6; }
+
+@keyframes hero-finance-float {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-3deg); }
+  50% { transform: translate3d(0, -16px, 0) rotate(3deg); }
+}
+
+@media (max-width: 640px) {
+  .hero-finance-icon { width: 2.8rem; opacity: 0.55; }
+  .hero-finance-icon-3, .hero-finance-icon-5 { display: none; }
+  .hero-finance-icon-1 { left: 2%; top: 12%; }
+  .hero-finance-icon-2 { right: 2%; top: 16%; }
+  .hero-finance-icon-4 { right: 5%; bottom: 7%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-finance-icon { animation: none; }
 }
